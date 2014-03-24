@@ -1,0 +1,12 @@
+.fold
+	height 0
+	overflow hidden
+	transition height 0.75s linear
+	transform translate3d(0,0,0)
+
+.fold-header
+	cursor pointer
+
+/* eliminate artifacts from webkit browsers when animating height */
+.fold
+	-webkit-backface-visibility hidden
