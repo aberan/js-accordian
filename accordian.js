@@ -77,6 +77,7 @@ define(function(require){
 		}, /* \accordian._init */
 
 		_set_height: function($fold, height){
+			//test for csstransitions. If not supported do jquery animate instead.
 			$fold.height(height);
 		}, /* \accordian._set_height */
 

@@ -12,10 +12,10 @@ new nxnw.accordian(args, options);
 
 
 ### Options
-Option | Default
------------- | ------------
-duration   | 1000
-ns         | 'accordian'
+Option | Default | Explanation
+------------ | ------------ | ------------------------------------- |
+duration     | 1000         | animation time in ms                  |
+ns           | 'accordian'  | namespace for jquery event handler    |
 
 ### Usage
 ```javascript
