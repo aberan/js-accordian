@@ -13,7 +13,7 @@ new nxnw.accordian(args, options);
 
 ### Options
 Option | Default
-__________ | __________
+------------ | ------------
 duration   | 1000
 ns         | 'accordian'
 
