@@ -9,6 +9,12 @@ new nxnw.accordian(args, options);
 
 **args** and **options** are expected to be objects
 
+### Arguments
+Argument | Explanation
+----------- | -----------
+el          | jquery DOM object i.e. $('.foo')
+callback    | callback function that gets called when a fold's animation completes
+post        | callback function that gets called when the accordian initialization finishes
 
 
 ### Options
@@ -35,13 +41,14 @@ var functions = (function(foo) {
 	};
 })( foo ); //functions
 
-//object containing any options that should be set
+//object containing the arguments for the accordian
 var args = {
 	el: $('.accordian'),
 	callback: functions.callback,
 	post: functions.post
 };
 
+//object containing any options that should be set
 var options = {
 	duration: 500
 };
