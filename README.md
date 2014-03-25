@@ -3,7 +3,9 @@ Javascript class to handle accordian functionality.
 HTML skeleton is available via this [Gist](https://gist.github.com/aberan/9770367).
 
 ### Initialization
+```javascript
 new nxnw.accordian(args, options);
+```
 
 **args** and **options** are expected to be objects
 
@@ -11,11 +13,13 @@ new nxnw.accordian(args, options);
 
 ### Options
 Option | Default
-duration | 1000
-ns       | 'accordian'
+__________ | __________
+duration   | 1000
+ns         | 'accordian'
 
 ### Usage
 ```javascript
+//additional variable you want to keep track of
 var foo = { a: 1, b: 2 };
 
 var functions = (function(foo) {
@@ -42,15 +46,3 @@ var options = {
 
 new nxnw.accordian(args, options);
 ```
-
-
-
-/*
- * html structure - you would repeat the fold-wrapper div as many times as needed for said accordian
- * the fold-header is the visible 'clickable' part of the accordian to allow the user to open and close its fold
- *
- * to initialize accordian: new nxnw.accordian('.accordian', callback, params, {});
- * pass any options in the options array if necessary
- *
- * adjust any css timining needed in the accordian.css file
-*/
