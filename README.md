@@ -22,6 +22,7 @@ ns           | 'accordian'  | namespace for jquery event handler    |
 //additional variable you want to keep track of
 var foo = { a: 1, b: 2 };
 
+//object containing various callback functions to pass to the accordian
 var functions = (function(foo) {
 	return {
 		callback: function() {
@@ -34,6 +35,7 @@ var functions = (function(foo) {
 	};
 })( foo ); //functions
 
+//object containing any options that should be set
 var args = {
 	el: $('.accordian'),
 	callback: functions.callback,
