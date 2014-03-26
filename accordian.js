@@ -6,83 +6,104 @@ define(function(require){
 	require('throttle-debounce');
 
 	// first we set up our constructor function
-	function accordian(el, callback, params, options){
+	function accordian(args, options){
 		//set object options
 		this.options = $.extend({}, this.defaults, options);
-		this.$el = $(el);
+		this.$el = args.el;
 		//set object properties
-		//this.property = value;
+		this.transitioning = false;
+		this.csstransitions = Modernizr.csstransitions;
+
+		//various callbacks..
+    this.callback = args.hasOwnProperty('callback') ? args.callback : false;
+    this.post = args.hasOwnProperty('post') ? args.post : false;
 
 		//fire init function
-		this._init(callback, params);
-	}; /* \constructor */
+		this._init();
+	} /* \constructor */
 
 	accordian.prototype = {
-		// now we define the prototype for slideShow
+		// now we define the prototype for accordian
 		defaults: {
-			//property: value
+			duration: 1000,
+			ns: 'accordian'
 		}, /* \defaults */
 
 		//define plugin functions below
-		_init: function(callback, params){
-			var self = this;
+		_init: function(post){
+
 			//find all fold wrappers and get their height
-			self.$el.find('.fold-wrapper').each(function(){
-					//get height of fold-inner
-					var $this = $(this);
-					var $fold_inner = $this.find('.fold-inner');
-					var $fold = $this.find('.fold');
-					var fold_height = $fold_inner.outerHeight(false);
-					var active_fold = false;
+			this.$el.find('.fold-wrapper').each( $.proxy(function(i, el){
+				//get height of fold-inner
+				var $this = $(el);
+				var $fold_inner = $this.find('.fold-inner');
+				var $fold = $this.find('.fold');
+				var fold_height = $fold_inner.outerHeight(false);
+				var active_fold = false;
 
-					$(window).on('resize', $.throttle( 250, function() {
-						fold_height = $fold_inner.outerHeight(false);
-						if(active_fold){ //if open, update height of the fold itself
-							self._set_height($fold, fold_height);
-						}
-					}));
+				$(window).on('resize.'+this.options.ns, $.throttle( 250, $.proxy(function() {
+					fold_height = $fold_inner.outerHeight(false);
+					if(active_fold){ //if open, update height of the fold itself
+						this._set_height($fold, fold_height);
+					}
+				}, this)));
 
-					$this.on('accordian_update', function() {
-						fold_height = $fold_inner.outerHeight(false);
-						if(active_fold){ //if open, update height of the fold itself
-							self._set_height($fold, fold_height);
-						}
-					});
+				$this.on('update.'+this.options.ns, $.proxy(function() {
+					fold_height = $fold_inner.outerHeight(false);
+					//if open, update height of the fold itself
+					if( active_fold ){
+						this._set_height($fold, fold_height);
+					}
+				}, this));
 
-
-					$this.find('.fold-header').on('click', function(e){
-						var $this = $(this);
-						//update active state
-						active_fold = active_fold ? false : true;
-
-						if(active_fold){ //active
-							$this.addClass('active');
-							self._set_height($fold, fold_height);
-							//$fold.height(fold_height);
-						}
-						else{ //not active
-							$this.removeClass('active');
-							self._set_height($fold, 0);
-							//$fold.height(0);
-						}
+				$this.on($.support.transition.end, $.proxy(function () {
+          if(this.callback) {
+						this.callback();
+					}
+        }, this));
 
 
-					}); /* \$this.find('.fold-header') */
+				$this.find('.fold-header').on('click.'+this.options.ns, $.proxy( function(e) {
+					var $this = $(e.currentTarget);
+					//update active state
+					active_fold = active_fold ? false : true;
 
-				}); /* \this.$el.find('.fold-wrapper').each() */
+					if(active_fold){ //active
+						$this.addClass('active');
+						this._set_height($fold, fold_height);
+					}
+					else{ //not active
+						$this.removeClass('active');
+						this._set_height($fold, 0);
+					}
+				}, this));
 
-			if(callback !== "" && self[callback] && typeof self[callback] == "function"){
-				self[callback](params);
-			}
+			},this));
+
+			if(this.post) {
+        this.post();
+      }
 		}, /* \accordian._init */
 
 		_set_height: function($fold, height){
-			//test for csstransitions. If not supported do jquery animate instead.
-			$fold.height(height);
+			if ( !this.csstransitions ) {
+				$fold.height(height);
+			}
+			else {
+				$fold.animate({
+					height: height,
+				}, this.options.duration, $.proxy(function() {
+					//execute callback if one exists
+					if(this.callback) {
+						this.callback();
+					}
+				}, this));
+			}
+
 		}, /* \accordian._set_height */
 
 		_open: function(index){
-			$('.fold-wrapper', this.$el).eq(index).find('.fold-header').trigger('click');
+			$('.fold-wrapper', this.$el).eq(index).find('.fold-header').trigger('click.'+this.options.ns);
 		}, /* \accordian._open */
 
 		_create: function(){

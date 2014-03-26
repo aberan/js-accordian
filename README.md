@@ -23,6 +23,8 @@ Option | Default | Explanation
 duration     | 1000         | animation time in ms                  |
 ns           | 'accordian'  | namespace for jquery event handler    |
 
+As of now you need to match the duration in the .styl file for modern browsers. In general the .styl file contents should be copied in the main.styl file to be compiled with autoprefixer etc.
+
 ### Usage
 ```javascript
 //additional variable you want to keep track of
