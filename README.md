@@ -28,10 +28,13 @@ As of now you need to match the duration in the .styl file for modern browsers. 
 ### Usage
 ```javascript
 //additional variable you want to keep track of
-var foo = { a: 1, b: 2 };
+var foo = {
+	a: 1,
+	b: 2
+};
 
 //object containing various callback functions to pass to the accordian
-var functions = (function(foo) {
+var functions = ( function( foo ) {
 	return {
 		callback: function() {
 			//do stuff here after accordian fold finishes animating
@@ -45,7 +48,7 @@ var functions = (function(foo) {
 
 //object containing the arguments for the accordian
 var args = {
-	el: $('.accordian'),
+	el: $( '.accordian' ),
 	callback: functions.callback,
 	post: functions.post
 };
@@ -55,5 +58,5 @@ var options = {
 	duration: 500
 };
 
-new nxnw.accordian(args, options);
+new nxnw.Accordian( args, options );
 ```
