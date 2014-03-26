@@ -91,7 +91,7 @@ define(function(require){
 		}, /* \accordian._init */
 
 		setHeight: function( $fold, height ) {
-			if ( !this.csstransitions ) {
+			if ( this.csstransitions ) {
 				$fold.height( height );
 			}
 			else {
