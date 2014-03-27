@@ -4,7 +4,7 @@ HTML skeleton is available via this [Gist](https://gist.github.com/aberan/977036
 
 ### Initialization
 ```javascript
-new nxnw.accordian(args, options);
+new nxnw.Accordian(args, options);
 ```
 
 **args** and **options** are expected to be objects
