@@ -115,8 +115,14 @@ define(function(require){
 
 		}, /* \accordian._create */
 
-		destroy: function(){
+		destroy: function(callback) {
+			//remove all set heights
+			this.$el.find( '.fold' ).removeAttr( 'style' );
 
+			//if callback is passed in, execute
+			if ( typeof callback !== 'undefined' && typeof callback === 'function' ) {
+				callback();
+			}
 		}  /* \accordian._destroy */
 	};  /* \accordian.prototype */
 
